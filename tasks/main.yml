@@ -56,7 +56,7 @@
 
 - name: Write results of database setup to file  # noqa: no-handler
   ansible.builtin.copy:
-    content: "{{ item.stdout + item.stderr }}"
+    content: "{{ item.stdout }}"
     dest: "/var/log/bareos/{{ item.cmd | basename }}.log"
     mode: "0640"
   loop: "{{ bareos_setup_database.results }}"
