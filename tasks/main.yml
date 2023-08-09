@@ -8,16 +8,14 @@
 
 - name: Add repository (rpm)
   ansible.builtin.yum_repository:
-    name: bareos
-    description: Backup Archiving Recovery Open Sourced
-    baseurl: "{{ bareos_url }}/{{ bareos_release }}/{{ ansible_distribution }}_{{ ansible_distribution_major_version }}"
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    baseurl: "{{ item.baseurl }}"
     gpgcheck: yes
-    gpgkey: https://download.bareos.org/{{ bareos_release }}/{{ ansible_distribution }}_{{ ansible_distribution_major_version }}/RPM-GPG-KEY
-    enabled: yes
-    state: present
+    gpgkey: "{{ item.gpgkey }}"
+  loop: "{{ bareos_repositories }}"
   when:
-    - ansible_pkg_mgr == "dnf" or
-      ansible_pkg_mgr == "yum"
+    - ansible_pkg_mgr in [ "dnf", "yum" ]
 
 - name: Install bareos packages
   ansible.builtin.package:
