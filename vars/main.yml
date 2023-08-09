@@ -15,17 +15,23 @@ _bareos_repository_url:
   Ubuntu: "{{ bareos_url }}/{{ bareos_release }}/xUbuntu_{{ ansible_distribution_version }}"
 bareos_repository_url: "{{ _bareos_repository_url[ansible_distribution] | default(_bareos_repository_url[ansible_os_family] | default(_bareos_repository_url['default'])) }}"
 
+# Debian and RedHat use a different structure.
+_bareos_gpg_key:
+  Debian: "{{ bareos_repository_url }}/bareos-keyring.gpg"
+  RedHat: "{{ bareos_repository_url }}/RPM-GPG-KEY"
+bareos_gpg_key: "{{ _bareos_gpg_key[ansible_os_family] }}"
+
 # A list of repositories. This list contains parameters for both dnf/yum and apt.
 bareos_repositories:
   - name: bareos
     description: Backup Archiving Recovery Open Sourced
     baseurl: "{{ bareos_repository_url }}"
-    gpgkey: "{{ bareos_repository_url }}/RPM-GPG-KEY"
+    gpgkey: "{{ bareos_gpg_key }}"
     repo: "deb {{ bareos_repository_url }} /"
   - name: bareos-source
     description: Backup Archiving Recovery Open Sourced - Sources
     baseurl: "{{ bareos_repository_url }}/src"
-    gpgkey: "{{ bareos_repository_url }}/RPM-GPG-KEY"
+    gpgkey: "{{ bareos_gpg_key }}"
     repo: "deb-src {{ bareos_repository_url }} /"
 
 # Each role has a different set of packages.
