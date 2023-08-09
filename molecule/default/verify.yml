@@ -16,3 +16,4 @@
           status director
           quit
           EOF
+      changed_when: no
