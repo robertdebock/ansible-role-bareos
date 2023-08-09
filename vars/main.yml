@@ -10,9 +10,10 @@ bareos_url: "{{ _bareos_url[bareos_type] }}"
 # Different distributions have different repository URLs.
 _bareos_repository_url:
   default: "{{ bareos_url }}/{{ bareos_release }}/{{ ansible_distribution }}_{{ ansible_distribution_major_version }}"
+  Fedora: "{{ bareos_url }}/{{ bareos_release }}/{{ ansible_distribution }}_{{ ansible_distribution_major_version }}"
   RedHat: "{{ bareos_url }}/{{ bareos_release }}/EL_{{ ansible_distribution_major_version }}"
   Ubuntu: "{{ bareos_url }}/{{ bareos_release }}/xUbuntu_{{ ansible_distribution_version }}"
-bareos_repository_url: "{{ _bareos_repository_url[ansible_os_family] | default(_bareos_repository_url[ansible_distribution] | default(_bareos_repository_url['default'])) }}"
+bareos_repository_url: "{{ _bareos_repository_url[ansible_distribution] | default(_bareos_repository_url[ansible_os_family] | default(_bareos_repository_url['default'])) }}"
 
 # A list of repositories. This list contains parameters for both dnf/yum and apt.
 bareos_repositories:
