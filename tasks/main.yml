@@ -48,7 +48,7 @@
     - name: Add repository (zypper)
       ansible.builtin.zypper_repository:
         name: "{{ item.name }}"
-        repo : "{{ item.zypper_repo }}"
+        repo: "{{ item.zypper_repo }}"
       loop: "{{ bareos_repositories }}"
       loop_control:
         label: "{{ item.name }}"
