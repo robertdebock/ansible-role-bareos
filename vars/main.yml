@@ -22,7 +22,7 @@ _bareos_gpg_key:
   Debian: "{{ bareos_repository_url }}/bareos-keyring.gpg"
 bareos_gpg_key: "{{ _bareos_gpg_key[ansible_os_family] | default(_bareos_gpg_key['default']) }}"
 
-# A list of repositories. This list contains parameters for both dnf/yum and apt.
+# A list of repositories. The items in this list contains parameters for both dnf/yum and apt.
 bareos_repositories:
   - name: bareos
     description: Backup Archiving Recovery Open Sourced
@@ -30,13 +30,6 @@ bareos_repositories:
     gpgkey: "{{ bareos_gpg_key }}"
     repo: "deb {{ bareos_repository_url }} /"
     zypper_repo: "{{ bareos_repository_url }}"
-  # - name: bareos-source
-  #   description: Backup Archiving Recovery Open Sourced - Sources
-  #   baseurl: "{{ bareos_repository_url }}/src"
-  #   gpgkey: "{{ bareos_gpg_key }}"
-  #   repo: "deb-src {{ bareos_repository_url }}"
-  #   zypper_repo: "{{ bareos_repository_url }}/src"
-
 
 # Each role has a different set of packages.
 _bareos_packages:
