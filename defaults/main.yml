@@ -11,4 +11,6 @@ bareos_release: current
 bareos_version: 22
 
 # What role should be used, either "fd" (File Daemon)), "sd" (Storage Daemon), or "dir" (Director).
+# You can only select one role, so if you want to have mulitple roles on a server,
+# you need to run this role multiple times, each time with a different role.
 bareos_role: fd
