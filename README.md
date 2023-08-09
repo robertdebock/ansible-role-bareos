@@ -42,6 +42,7 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
 
   roles:
     - role: robertdebock.bootstrap
+    # The roles buildtools, python_pip and postgres are only required for the `bareos_role`: dir.
     - role: robertdebock.buildtools
     - role: robertdebock.python_pip
     - role: robertdebock.postgres
