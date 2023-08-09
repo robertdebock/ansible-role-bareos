@@ -43,6 +43,9 @@
   notify:
     - Setup database
 
+- name: Run database setup
+  ansible.builtin.meta: flush_handlers
+
 - name: Start service {{ bareos_service }}
   ansible.builtin.service:
     name: "{{ bareos_service }}"
