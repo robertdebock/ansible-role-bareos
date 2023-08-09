@@ -50,7 +50,7 @@
   register: bareos_setup_database
   loop: "{{ bareos_catalogs }}"
   loop_control:
-    label: "{{ item }}"
+    label: "{{ item | basename }}"
   when:
     - bareos_role == "dir"
   notify:
