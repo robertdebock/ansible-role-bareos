@@ -19,6 +19,24 @@
   when:
     - ansible_pkg_mgr in [ "dnf", "yum" ]
 
+- name: Run tasks on apt based distributions
+  when:
+    - ansible_pkg_mgr in [ "apt" ]
+  block:
+    - name: Trust GPG key (apt)
+      ansible.builtin.apt_key:
+        url: "{{ bareos_repository_url }}/bareos-keyring.gpg"
+
+    - name: Add repository (apt)
+      ansible.builtin.apt_repository:
+        repo: "{{ item.repo }}"
+        state: present
+        filename: "{{ item.name }}"
+        update_cache: yes
+      loop: "{{ bareos_repositories }}"
+      loop_control:
+        label: "{{ item.name }}"
+
 - name: Install bareos packages
   ansible.builtin.package:
     name: "{{ bareos_packages }}"

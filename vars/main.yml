@@ -19,14 +19,12 @@ bareos_repositories:
     description: Backup Archiving Recovery Open Sourced
     baseurl: "{{ bareos_repository_url }}"
     gpgkey: "{{ bareos_repository_url }}/RPM-GPG-KEY"
+    repo: "deb {{ bareos_repository_url }} /"
   - name: bareos-source
     description: Backup Archiving Recovery Open Sourced - Sources
     baseurl: "{{ bareos_repository_url }}/src"
     gpgkey: "{{ bareos_repository_url }}/RPM-GPG-KEY"
-  - name: bareos-debuginfo
-    description: Backup Archiving Recovery Open Sourced - Debuginfo
-    baseurl: "{{ bareos_repository_url }}/debug"
-    gpgkey: "{{ bareos_repository_url }}/RPM-GPG-KEY"
+    repo: "deb-src {{ bareos_repository_url }} /"
 
 # Each role has a different set of packages.
 _bareos_packages:
