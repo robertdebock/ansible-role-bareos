@@ -9,3 +9,4 @@
   loop: "{{ bareos_catalogs }}"
   when:
     - bareos_role == "dir"
+  changed_when: yes
