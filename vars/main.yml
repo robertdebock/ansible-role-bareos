@@ -14,6 +14,7 @@ _bareos_repository_url:
   Ubuntu: "{{ bareos_url }}/{{ bareos_release }}/xUbuntu_{{ ansible_distribution_version }}"
 bareos_repository_url: "{{ _bareos_repository_url[ansible_os_family] | default(_bareos_repository_url[ansible_distribution] | default(_bareos_repository_url['default'])) }}"
 
+# A list of repositories. This list contains parameters for both dnf/yum and apt.
 bareos_repositories:
   - name: bareos
     description: Backup Archiving Recovery Open Sourced
