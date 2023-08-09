@@ -36,7 +36,7 @@
       loop: "{{ bareos_repositories }}"
       loop_control:
         label: "{{ item.name }}"
-    
+
     - name: Prevent db installation (deb)
       ansible.builtin.debconf:
         name: bareos-database-common
