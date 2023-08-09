@@ -30,12 +30,12 @@ bareos_repositories:
     gpgkey: "{{ bareos_gpg_key }}"
     repo: "deb {{ bareos_repository_url }} /"
     zypper_repo: "{{ bareos_repository_url }}"
-  - name: bareos-source
-    description: Backup Archiving Recovery Open Sourced - Sources
-    baseurl: "{{ bareos_repository_url }}/src"
-    gpgkey: "{{ bareos_gpg_key }}"
-    repo: "deb-src {{ bareos_repository_url }}"
-    zypper_repo: "{{ bareos_repository_url }}/src"
+  # - name: bareos-source
+  #   description: Backup Archiving Recovery Open Sourced - Sources
+  #   baseurl: "{{ bareos_repository_url }}/src"
+  #   gpgkey: "{{ bareos_gpg_key }}"
+  #   repo: "deb-src {{ bareos_repository_url }}"
+  #   zypper_repo: "{{ bareos_repository_url }}/src"
 
 
 # Each role has a different set of packages.
