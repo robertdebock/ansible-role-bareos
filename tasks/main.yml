@@ -36,6 +36,15 @@
       loop: "{{ bareos_repositories }}"
       loop_control:
         label: "{{ item.name }}"
+    
+    - name: Prevent db installation (deb)
+      ansible.builtin.debconf:
+        name: bareos-database-common
+        question: bareos-database-common/dbconfig-install
+        value: "false"
+        vtype: boolean
+      when:
+        - bareos_role == "dir"
 
 - name: Run tasks on zypper based distributions
   when:
@@ -57,19 +66,19 @@
   ansible.builtin.package:
     name: "{{ bareos_packages }}"
 
-- name: Setup database
+- name: Run database setup scripts
   ansible.builtin.command:
     cmd: "{{ item }}"
     creates: "/var/log/bareos/{{ item | basename }}.log"
   become_user: postgres
   become: yes
   register: bareos_setup_database
-  loop: "{{ bareos_catalogs }}"
+  loop: "{{ bareos_dir_install_scripts }}"
   loop_control:
     label: "{{ item | basename }}"
   when:
     - bareos_role == "dir"
-    - ansible_pkg_mgr not in [ "apt" ]
+    # - ansible_pkg_mgr not in [ "apt" ]
   notify:
     - Write results of database setup to file
 

@@ -53,13 +53,7 @@ _bareos_service:
 bareos_service: "{{ _bareos_service[bareos_role] }}"
 
 # A list of script to setup the database.
-_bareos_catalogs:
-  default:
-    - /usr/lib/bareos/scripts/create_bareos_database
-    - /usr/lib/bareos/scripts/make_bareos_tables
-    - /usr/lib/bareos/scripts/grant_bareos_privileges
-  Debian:
-    # Debian like operating systems create a database during installation.
-    - /usr/lib/bareos/scripts/make_bareos_tables
-    - /usr/lib/bareos/scripts/grant_bareos_privileges
-bareos_catalogs: "{{ _bareos_catalogs[ansible_os_family] | default(_bareos_catalogs['default']) }}"
+bareos_dir_install_scripts:
+  - /usr/lib/bareos/scripts/create_bareos_database
+  - /usr/lib/bareos/scripts/make_bareos_tables
+  - /usr/lib/bareos/scripts/grant_bareos_privileges
