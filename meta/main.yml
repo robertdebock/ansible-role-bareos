@@ -27,18 +27,10 @@ galaxy_info:
 
   galaxy_tags:
     - bareos
-    - application
-    - cloud
-    - database
-    - development
     - infrastructure
     - linux
-    - monitoring
-    - networking
     - storage
-    - security
     - system
     - tools
-    - windows
 
 dependencies: []
