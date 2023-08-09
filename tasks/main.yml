@@ -56,17 +56,6 @@
   notify:
     - Write results of database setup to file
 
-- name: Write results of database setup to file  # noqa: no-handler
-  ansible.builtin.copy:
-    content: "{{ item.stdout }}"
-    dest: "/var/log/bareos/{{ item.cmd | basename }}.log"
-    mode: "0640"
-  loop: "{{ bareos_setup_database.results }}"
-  loop_control:
-    label: "{{ item.cmd | default('Command was skipped') }}"
-  when:
-    - item.changed
-
 - name: Start service {{ bareos_service }}
   ansible.builtin.service:
     name: "{{ bareos_service }}"
