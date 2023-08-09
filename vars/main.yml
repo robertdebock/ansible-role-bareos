@@ -1,0 +1,35 @@
+---
+# vars file for bareos
+
+# The URL differs for community and subscription versions.
+_bareos_url:
+  community: "https://download.bareos.org/"
+  subscription: "https://download.bareos.com/"
+bareos_url: "{{ _bareos_url[bareos_type] }}"
+
+# Each role has a different set of packages.
+_bareos_packages:
+  fd:
+    - bareos-filedaemon
+  sd:
+    - bareos-storage
+    - bareos-storage-tape
+  dir:
+    - bareos-database-postgresql
+    - bareos-database-tools
+    - bareos-director
+    - bareos-webui
+bareos_packages: "{{ _bareos_packages[bareos_role] }}"
+
+# There are services for each role.
+_bareos_service:
+  fd: "bareos-fd"
+  sd: "bareos-sd"
+  dir: "bareos-dir"
+bareos_service: "{{ _bareos_service[bareos_role] }}"
+
+# A list of script to setup the database.
+bareos_catalogs:
+  - /usr/lib/bareos/scripts/create_bareos_database
+  - /usr/lib/bareos/scripts/make_bareos_tables
+  - /usr/lib/bareos/scripts/grant_bareos_privileges

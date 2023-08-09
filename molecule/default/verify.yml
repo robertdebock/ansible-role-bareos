@@ -1,0 +1,18 @@
+---
+- name: Verify
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Test if the repository can be used
+      ansible.builtin.package:
+        name: bareos
+
+    - name: Use bconsole to check if the Bareos Director is running
+      ansible.builtin.shell:
+        cmd: |
+          bconsole << EOF
+          status director
+          quit
+          EOF

@@ -1,0 +1,14 @@
+---
+- name: Prepare
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  # We are going to install all components on one hosts.
+  # This is not what is typically done, but works for testing.
+
+  roles:
+    - role: robertdebock.bootstrap
+    - role: robertdebock.buildtools
+    - role: robertdebock.python_pip
+    - role: robertdebock.postgres

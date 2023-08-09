@@ -1,0 +1,14 @@
+---
+# defaults file for bareos
+
+# What type of Bareos to install, either "community" or "subscription".
+bareos_type: community
+
+# What release to use, either "current", "next" or "release".
+bareos_release: current
+
+# What version to install, either "20", "21" or "22".
+bareos_version: 22
+
+# What role should be used, either "fd" (File Daemon)), "sd" (Storage Daemon), or "dir" (Director).
+bareos_role: fd

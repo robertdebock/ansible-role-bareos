@@ -1,0 +1,32 @@
+---
+# tasks file for bareos
+
+- name: Include assert.yml
+  ansible.builtin.import_tasks: assert.yml
+  run_once: yes
+  delegate_to: localhost
+
+- name: Add repository (rpm)
+  ansible.builtin.yum_repository:
+    name: bareos
+    description: Backup Archiving Recovery Open Sourced
+    baseurl: "{{ bareos_url }}/{{ bareos_release }}/{{ ansible_distribution }}_{{ ansible_distribution_major_version }}"
+    gpgcheck: yes
+    gpgkey: https://download.bareos.org/{{ bareos_release }}/{{ ansible_distribution }}_{{ ansible_distribution_major_version }}/RPM-GPG-KEY
+    enabled: yes
+    state: present
+  when:
+    - ansible_pkg_mgr == "dnf" or
+      ansible_pkg_mgr == "yum"
+
+- name: Install bareos packages
+  ansible.builtin.package:
+    name: "{{ bareos_packages }}"
+  notify:
+    - Setup database
+
+- name: Start service {{ bareos_service }}
+  ansible.builtin.service:
+    name: "{{ bareos_service }}"
+    state: started
+    enabled: yes
