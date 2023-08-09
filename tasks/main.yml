@@ -53,6 +53,8 @@
     label: "{{ item }}"
   when:
     - bareos_role == "dir"
+  notify:
+    - Write results of database setup to file
 
 - name: Write results of database setup to file  # noqa: no-handler
   ansible.builtin.copy:
