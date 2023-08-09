@@ -37,6 +37,22 @@
       loop_control:
         label: "{{ item.name }}"
 
+- name: Run tasks on zypper based distributions
+  when:
+    - ansible_pkg_mgr in [ "zypper" ]
+  block:
+    - name: Import a key from a url
+      ansible.builtin.rpm_key:
+        key: "{{ bareos_gpg_key }}"
+
+    - name: Add repository (zypper)
+      ansible.builtin.zypper_repository:
+        name: "{{ item.name }}"
+        repo : "{{ item.zypper_repo }}"
+      loop: "{{ bareos_repositories }}"
+      loop_control:
+        label: "{{ item.name }}"
+
 - name: Install bareos packages for {{ bareos_role }}
   ansible.builtin.package:
     name: "{{ bareos_packages }}"
