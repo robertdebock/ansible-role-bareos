@@ -42,7 +42,7 @@
     name: "{{ bareos_packages }}"
 
 - name: Setup database
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "{{ item }}"
     creates: "/var/log/bareos/{{ item | basename }}.log"
   become_user: postgres
@@ -54,10 +54,11 @@
   when:
     - bareos_role == "dir"
 
-- name: Write results of database setup to file
+- name: Write results of database setup to file  # noqa: no-handler
   ansible.builtin.copy:
-    content: "{{ item.stdout }}"
+    content: "{{ item.stdout + item.stderr }}"
     dest: "/var/log/bareos/{{ item.cmd | basename }}.log"
+    mode: "0640"
   loop: "{{ bareos_setup_database.results }}"
   loop_control:
     label: "{{ item.cmd | default('Command was skipped') }}"
