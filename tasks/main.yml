@@ -40,11 +40,29 @@
 - name: Install bareos packages
   ansible.builtin.package:
     name: "{{ bareos_packages }}"
-  notify:
-    - Setup database
 
-- name: Run database setup
-  ansible.builtin.meta: flush_handlers
+- name: Setup database
+  ansible.builtin.shell:
+    cmd: "{{ item }}"
+    creates: "/var/log/bareos/{{ item | basename }}.log"
+  become_user: postgres
+  become: yes
+  register: bareos_setup_database
+  loop: "{{ bareos_catalogs }}"
+  loop_control:
+    label: "{{ item }}"
+  when:
+    - bareos_role == "dir"
+
+- name: Write results of database setup to file
+  ansible.builtin.copy:
+    content: "{{ item.stdout }}"
+    dest: "/var/log/bareos/{{ item.cmd | basename }}.log"
+  loop: "{{ bareos_setup_database.results }}"
+  loop_control:
+    label: "{{ item.cmd | default('Command was skipped') }}"
+  when:
+    - item.changed
 
 - name: Start service {{ bareos_service }}
   ansible.builtin.service:

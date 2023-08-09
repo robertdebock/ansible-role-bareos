@@ -1,12 +1,3 @@
 ---
 # handlers file for bareos
 
-- name: Setup database
-  ansible.builtin.command:
-    cmd: "{{ item }}"
-  become_user: postgres
-  become: yes
-  loop: "{{ bareos_catalogs }}"
-  when:
-    - bareos_role == "dir"
-  changed_when: yes
