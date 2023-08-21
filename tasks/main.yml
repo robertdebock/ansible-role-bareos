@@ -78,7 +78,6 @@
     label: "{{ item | basename }}"
   when:
     - bareos_role == "dir"
-    # - ansible_pkg_mgr not in [ "apt" ]
   notify:
     - Write results of database setup to file
 
