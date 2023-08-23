@@ -8,8 +8,30 @@
   # We want to test all three roles, so we need to run the role three times, each time with
   # a different value for the variable bareos_role.
   roles:
-    - role: ansible-role-bareos
-    - role: ansible-role-bareos
-      bareos_role: sd
+    # Start with the director.
     - role: ansible-role-bareos
       bareos_role: dir
+      bareos_dir_hostname: "{{ ansible_fqdn }}"
+      bareos_dir_password: "secretpassword"
+      bareos_dir_queryfile: "/usr/lib/bareos/scripts/query.sql"
+      bareos_dir_max_concurrent_jobs: 10
+      bareos_dir_messages: Daemon
+
+    # Connect a file daemon (client) to the director.
+    - role: ansible-role-bareos
+      bareos_fd_hostname: "{{ ansible_fqdn }}"
+      bareos_fd_directors:
+        - name: "bareos-dir"
+          password: "secretpassword"
+          monitor: no
+      bareos_fd_messages:
+        - name: "Standard"
+          description: "Send relevant messages to the Director."
+          director: "client1-dir = all, !skipped, !restored"
+
+    # Finally connect a storage daemon to the director.
+    - role: ansible-role-bareos
+      bareos_role: sd
+      bareos_sd_hostname: "{{ ansible_fqdn }}"
+      # bareos_sd_password: "secretpassword"
+
